@@ -1,5 +1,6 @@
-import { Image } from '#/components/ui/Image/Image.tsx'
 import { Link } from '@tanstack/react-router'
+
+import { Image } from '#/components/ui/Image/Image.tsx'
 
 const SimpleMovieItem = ({ movie }: { movie: MovieSimpleItem }) => {
   return (

@@ -1,9 +1,11 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { SimpleMovieItem } from '../SimpleMovieItem/SimpleMovieItem'
+
 import {
   genreDefinitionQueryOptions,
   genreListQueryOptions,
 } from '#/lib/query-options.ts'
+
+import { SimpleMovieItem } from '../SimpleMovieItem/SimpleMovieItem'
 
 const Carousel = ({ genreId }: { genreId: number }) => {
   const { data: moviesList } = useSuspenseQuery(genreListQueryOptions(genreId))

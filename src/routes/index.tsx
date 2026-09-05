@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+
 import { createFileRoute } from '@tanstack/react-router'
 
 import { CarouselPanel } from '#/components/panels/CarouselPanel/CarouselPanel.tsx'
@@ -5,7 +7,6 @@ import {
   genreDefinitionQueryOptions,
   genreListQueryOptions,
 } from '#/lib/query-options.ts'
-import { Suspense } from 'react'
 
 export const GENRE_IDS = [878, 27, 53]
 

@@ -1,4 +1,5 @@
 import { queryOptions } from '@tanstack/react-query'
+
 import { getMovieById, getMoviesByGenre, getGenreDefinitions } from './tmdb'
 
 const genreListQueryOptions = (genreId: number) => {

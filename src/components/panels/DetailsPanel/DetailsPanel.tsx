@@ -4,9 +4,9 @@ import { AdditionalInfo } from '#/components/blocks/AdditionalInfo/AdditionalInf
 import { MovieDescription } from '#/components/blocks/MovieDescription/MovieDescription.tsx'
 import { Image } from '#/components/ui/Image/Image.tsx'
 import {
-  addToWatchlist,
+  addToLocalWatchlist,
   getLocalWatchlist,
-  removeFromWatchlist,
+  removeFromLocalWatchlist,
 } from '#/lib/watchlist-collection.ts'
 
 const DetailsPanel = ({ movie }: { movie: TmdbMovieDetails }) => {
@@ -15,9 +15,9 @@ const DetailsPanel = ({ movie }: { movie: TmdbMovieDetails }) => {
 
   const handleWatchlistClick = () => {
     if (isInWatchlist) {
-      removeFromWatchlist(movie.id)
+      removeFromLocalWatchlist(movie.id)
     } else {
-      addToWatchlist(movie.id, movie.title, movie.poster_path || '')
+      addToLocalWatchlist(movie.id, movie.title, movie.poster_path || '')
     }
   }
 

@@ -12,7 +12,7 @@ const getLocalWatchlist = () => {
   })
 }
 
-const addToWatchlist = (
+const addToLocalWatchlist = (
   movieId: number,
   movieTitle: string,
   moviePoster: string,
@@ -23,7 +23,12 @@ const addToWatchlist = (
     poster_path: moviePoster,
   })
 
-const removeFromWatchlist = (movieId: number) =>
+const removeFromLocalWatchlist = (movieId: number) =>
   localWatchlistCollection.delete(movieId)
 
-export { getLocalWatchlist, addToWatchlist, removeFromWatchlist }
+export {
+  getLocalWatchlist,
+  addToLocalWatchlist,
+  removeFromLocalWatchlist,
+  localWatchlistCollection,
+}
