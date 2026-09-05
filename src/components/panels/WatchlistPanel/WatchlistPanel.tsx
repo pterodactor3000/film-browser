@@ -13,13 +13,11 @@ const WatchlistPanel = () => {
 
   return (
     <article>
-      <ul>
-        {watchlist.length
-          ? watchlist.map((movie) => (
-              <SimpleMovieItem key={movie.id} movie={movie} />
-            ))
-          : 'Wow, so empty...'}
-      </ul>
+      {watchlist.length
+        ? watchlist.map((movie) => (
+            <SimpleMovieItem key={movie.id} movie={movie} />
+          ))
+        : 'Wow, so empty...'}
     </article>
   )
 }
