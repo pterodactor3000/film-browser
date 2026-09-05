@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 
 import { render, screen } from '@testing-library/react'
@@ -5,7 +6,9 @@ import { render, screen } from '@testing-library/react'
 import { SimpleMovieItem } from './SimpleMovieItem'
 
 vi.mock('@tanstack/react-router', () => ({
-  Link: ({ children }: { children: unknown }) => <a href="/">{children}</a>,
+  Link: ({ children }: { children: ReactElement }) => (
+    <a href="/">{children}</a>
+  ),
 }))
 
 describe('SimpleMovieItem', () => {

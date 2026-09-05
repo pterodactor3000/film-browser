@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ReactElement } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 
 import { render, screen } from '@testing-library/react'
@@ -10,7 +10,9 @@ const { getLocalWatchlist } = vi.hoisted(() => ({
 }))
 
 vi.mock('@tanstack/react-router', () => ({
-  Link: ({ children }: { children: ReactNode }) => <a href="/">{children}</a>,
+  Link: ({ children }: { children: ReactElement }) => (
+    <a href="/">{children}</a>
+  ),
 }))
 
 vi.mock('#/lib/watchlist-collection.ts', () => ({
