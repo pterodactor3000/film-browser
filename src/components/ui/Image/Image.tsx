@@ -1,6 +1,15 @@
-const Image = () => {
+interface ImageProps {
+  src: string
+  alt: string
+  width?: number
+}
+
+const Image = ({ src, width, alt }: ImageProps) => {
   return (
-    <img src="https://static.boredpanda.com/blog/wp-content/uploads/2019/01/funny-fashion-memes-fb5.png" />
+    <img
+      alt={alt}
+      src={`https://image.tmdb.org/t/p/${width ? 'w' + width : 'original'}${src}`}
+    />
   )
 }
 
