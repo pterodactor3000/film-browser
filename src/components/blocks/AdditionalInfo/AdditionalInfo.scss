@@ -1,0 +1,25 @@
+@use '../../../styles/tokens';
+
+.additional-info {
+  grid-area: additional-details;
+
+  dl {
+    display: grid;
+    grid-template-columns: repeat(2, max-content 1fr);
+    column-gap: 32px;
+    row-gap: 8px;
+    margin: 0;
+  }
+
+  dd {
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 640px) {
+  .additional-info dl {
+    grid-template-columns: max-content 1fr;
+  }
+}

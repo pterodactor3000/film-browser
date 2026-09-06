@@ -1,0 +1,19 @@
+@use '../../../styles/tokens';
+
+.carousel-wrapper {
+  border-radius: 0.5rem;
+  background-color: tokens.$default-theme-surface-a10;
+  box-shadow: tokens.$default-theme-item-shadow;
+  padding: 1rem;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.carousel, ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  overflow: hidden;
+}

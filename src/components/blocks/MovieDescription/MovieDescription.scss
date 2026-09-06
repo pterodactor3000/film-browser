@@ -1,0 +1,16 @@
+@use '../../../styles/tokens';
+
+.description {
+  grid-area: description;
+  background-color: tokens.$default-theme-surface-a50;
+  box-shadow: tokens.$default-theme-item-shadow;
+
+  padding: 32px;
+
+  display: block;
+  
+  button {
+    margin-block-end: 8px;
+  }
+  
+}

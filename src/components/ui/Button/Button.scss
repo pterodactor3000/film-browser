@@ -1,4 +1,9 @@
+@use '../../../styles/tokens';
 .button {
+  background-color: tokens.$default-theme-primary-a20;
+  color: tokens.$default-theme-light-a0;
+  padding: 0.5rem;
+
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -16,5 +21,23 @@
   &--icon-only {
     aspect-ratio: 1;
     padding: 0.5rem;
+    flex-shrink: 0;
+    align-self: center;
+    width: 2.5rem;
+    height: auto;
+  }
+
+  svg {
+    display: block;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: tokens.$default-theme-primary-a0;
+    box-shadow: 0 6px 16px rgb(0 0 0 / 0.55);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 }

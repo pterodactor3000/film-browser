@@ -1,13 +1,21 @@
+import { clsx } from 'clsx'
+
 import { Link } from '@tanstack/react-router'
 
 import { Image } from '#/components/ui/Image/Image.tsx'
 
+import './SimpleMovieItem.scss'
+
 const SimpleMovieItem = ({ movie }: { movie: MovieSimpleItem }) => {
   return (
     <li>
-      <article>
-        <Link to={`/details/$movieId`} params={{ movieId: String(movie.id) }}>
-          <label htmlFor="img">
+      <article className={clsx('movie-thumbnail')}>
+        <Link
+          to={`/details/$movieId`}
+          params={{ movieId: String(movie.id) }}
+          search={{ genreId: movie.genreId }}
+        >
+          <label htmlFor="img" className={clsx('movie-thumbnail-label')}>
             {movie.poster_path !== null ? (
               <Image
                 src={movie.poster_path ?? ''}
@@ -15,7 +23,7 @@ const SimpleMovieItem = ({ movie }: { movie: MovieSimpleItem }) => {
                 width={92}
               />
             ) : null}
-            {movie.title}
+            <span className="movie-thumbnail-title">{movie.title}</span>
           </label>
         </Link>
       </article>

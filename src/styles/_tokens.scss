@@ -1,13 +1,60 @@
-:root {
-  --font-size-root: 100%;
-  --space-md: 2rem;
-  --font-size-header: 2rem;
+// font definitions
+$font-family-default: "Roboto", sans-serif;
+$font-family-header: "Limelight", sans-serif;
+$font-family-horror: "Metal Mania", system-ui;
+$font-family-scifi: "Lekton", monospace;
+$font-family-thriller: "Special Elite", system-ui;
 
-  // font definitions
-  --font-family-default: "Roboto", sans-serif;
-  --font-family-header: "Limelight", sans-serif;
-  --font-family-horror: "Metal Mania", system-ui;
-  --font-family-scifi: "Lekton", monospace;
-  --font-family-noir: "Special Elite", system-ui;
-  
-}
+/** Color palette generated with https://colorffy.com/ */
+/** Base text colors */
+$default-theme-light-a0: #ffffff;
+$default-theme-dark-a0: #000000;
+
+/** Theme primary colors */
+$default-theme-primary-a0: #58434f;
+$default-theme-primary-a10: #4b3944;
+$default-theme-primary-a20: #3f2f38;
+$default-theme-primary-a30: #33262e;
+$default-theme-primary-a40: #281d23;
+$default-theme-primary-a50: #1d1419;
+
+/** Theme surface colors */
+$default-theme-surface-a0: #fff;
+$default-theme-surface-a10: #f2f2f2;
+$default-theme-surface-a20: #e4e4e4;
+$default-theme-surface-a30: #d7d7d7;
+$default-theme-surface-a40: #cacaca;
+$default-theme-surface-a50: #bdbdbd;
+
+/** Theme tonal surface colors */
+$default-theme-surface-tonal-a0: #edeaec;
+$default-theme-surface-tonal-a10: #e2dfe1;
+$default-theme-surface-tonal-a20: #d6d4d5;
+$default-theme-surface-tonal-a30: #cbc9ca;
+$default-theme-surface-tonal-a40: #c0bebf;
+$default-theme-surface-tonal-a50: #b5b4b4;
+
+/** Success colors */
+$default-theme-success-a0: #7dff95;
+$default-theme-success-a10: #95ffa6;
+$default-theme-success-a20: #abffb7;
+
+/** Warning colors */
+$default-theme-warning-a0: #ffbc5e;
+$default-theme-warning-a10: #ffc77a;
+$default-theme-warning-a20: #ffd194;
+
+/** Danger colors */
+$default-theme-danger-a0: #ff8080;
+$default-theme-danger-a10: #ff9493;
+$default-theme-danger-a20: #ffa8a5;
+
+/** Info colors */
+$default-theme-info-a0: #87d1ff;
+$default-theme-info-a10: #9ad8ff;
+$default-theme-info-a20: #addfff;
+
+/** Box shadow */
+$default-theme-button-shadow: 0 6px 16px rgb(0 0 0 / 0.55);
+$default-theme-item-shadow: 0 2px 8px rgb(0 0 0 / 0.4);
+$default-theme-item-shadow-hover: 0 6px 16px rgb(0 0 0 / 0.55);

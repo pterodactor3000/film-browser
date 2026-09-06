@@ -1,22 +1,23 @@
 import { Button } from '#/components/ui/Button/Button.tsx'
-import { EyeIcon } from '#/components/ui/Icons/EyeIcon.tsx'
-import { EyeSlashIcon } from '#/components/ui/Icons/EyeSlashIcon.tsx'
+import { EyeIcon, EyeSlashIcon } from '#/components/ui/Icons'
 
 interface AddToWatchlistButtonProps {
   handleWatchlistClick: () => void
   isInWatchlist: boolean
+  type: 'round' | 'square' | 'none'
 }
 
 const AddToWatchlistButton = ({
   handleWatchlistClick,
   isInWatchlist,
+  type,
 }: AddToWatchlistButtonProps) => {
   return (
     <Button
       onClick={handleWatchlistClick}
-      text={isInWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
+      ariaLabel={isInWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
       icon={isInWatchlist ? <EyeSlashIcon /> : <EyeIcon />}
-      type="none"
+      type={type}
     />
   )
 }

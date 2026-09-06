@@ -15,7 +15,12 @@ describe('SimpleMovieItem', () => {
   it('renders movie title', () => {
     render(
       <SimpleMovieItem
-        movie={{ id: 12345, title: 'Some Title', poster_path: '/png.png' }}
+        movie={{
+          id: 12345,
+          title: 'Some Title',
+          poster_path: '/png.png',
+          genreId: 27,
+        }}
       />,
     )
 

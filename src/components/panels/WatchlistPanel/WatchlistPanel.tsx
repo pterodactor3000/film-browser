@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { clsx } from 'clsx'
 
 import { SimpleMovieItem } from '#/components/blocks/SimpleMovieItem/SimpleMovieItem.tsx'
 import { getLocalWatchlist } from '#/lib/watchlist-collection.ts'
@@ -12,12 +13,14 @@ const WatchlistPanel = () => {
   }, [data])
 
   return (
-    <article>
-      {watchlist.length
-        ? watchlist.map((movie) => (
-            <SimpleMovieItem key={movie.id} movie={movie} />
-          ))
-        : 'Wow, so empty...'}
+    <article className={clsx('watchlist-grid')}>
+      <ul>
+        {watchlist.length
+          ? watchlist.map((movie) => (
+              <SimpleMovieItem key={movie.id} movie={movie} />
+            ))
+          : 'Wow, so empty...'}
+      </ul>
     </article>
   )
 }

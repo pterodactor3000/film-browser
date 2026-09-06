@@ -16,13 +16,13 @@ const getAuthHeaders = () => {
 }
 
 const getMoviesByGenre = createServerFn({ method: 'GET' })
-  .validator((data: { genreId: number | number[] }) => data)
+  .validator((data: { genreId: number | number[]; page?: number }) => data)
   .handler(async ({ data }) => {
     const url = new URL(`${TMDB_BASE_URL}/discover/movie`)
 
     url.searchParams.set('with_genres', String(data.genreId))
     url.searchParams.set('language', 'en-US')
-    url.searchParams.set('page', '1')
+    url.searchParams.set('page', String(data.page ?? 1))
     url.searchParams.set('sort_by', 'popularity.desc')
     url.searchParams.set('include_adult', 'true')
 

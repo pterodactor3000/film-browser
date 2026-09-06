@@ -5,6 +5,7 @@ import './Button.scss'
 interface ButtonBaseProps {
   onClick: () => void
   type: 'round' | 'square' | 'none'
+  disabled?: boolean
 }
 
 interface ButtonWithTextProps extends ButtonBaseProps {
@@ -27,6 +28,7 @@ const Button = ({
   text,
   icon,
   ariaLabel,
+  disabled = false,
 }: ButtonProps) => {
   const className = [
     'button',
@@ -43,6 +45,8 @@ const Button = ({
       onClick={onClick}
       className={className}
       aria-label={ariaLabel}
+      disabled={disabled}
+      title={ariaLabel}
     >
       {icon}
       {text ? <span>{text}</span> : null}

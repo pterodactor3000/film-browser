@@ -1,11 +1,15 @@
-import { queryOptions } from '@tanstack/react-query'
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
 
 import { getMovieById, getMoviesByGenre, getGenreDefinitions } from './tmdb'
 
 const genreListQueryOptions = (genreId: number) => {
-  return queryOptions({
+  return infiniteQueryOptions({
     queryKey: ['movies', 'genre', genreId],
-    queryFn: () => getMoviesByGenre({ data: { genreId } }),
+    queryFn: ({ pageParam }) =>
+      getMoviesByGenre({ data: { genreId, page: pageParam } }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
     staleTime: 5 * 60 * 1000,
   })
 }

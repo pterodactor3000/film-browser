@@ -1,0 +1,10 @@
+.watchlist-grid {
+  ul {
+    display: grid;
+    grid-template-columns: repeat(8, 92px);
+    gap: 1.5rem 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+}

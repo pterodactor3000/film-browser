@@ -15,7 +15,7 @@ export const Route = createFileRoute('/')({
   loader: ({ context }) =>
     Promise.all([
       ...GENRE_IDS.map((genreId) =>
-        context.queryClient.query(genreListQueryOptions(genreId)),
+        context.queryClient.infiniteQuery(genreListQueryOptions(genreId)),
       ),
       context.queryClient.query(genreDefinitionQueryOptions()),
     ]),
