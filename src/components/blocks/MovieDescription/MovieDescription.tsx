@@ -12,6 +12,7 @@ interface MovieDescriptionProps {
   voteAverage: number
   isInWatchlist: boolean
   watchlistButtonHandler: () => void
+  buttonType: 'round' | 'square' | 'none'
 }
 
 const MovieDescription = ({
@@ -24,7 +25,12 @@ const MovieDescription = ({
   voteAverage,
   isInWatchlist,
   watchlistButtonHandler,
+  buttonType,
 }: MovieDescriptionProps) => {
+  const buttonText = isInWatchlist
+    ? 'Remove from watchlist'
+    : 'Add to watchlist'
+
   return (
     <section className="description">
       <h2>{title}</h2>
@@ -32,7 +38,9 @@ const MovieDescription = ({
       <AddToWatchlistButton
         handleWatchlistClick={watchlistButtonHandler}
         isInWatchlist={isInWatchlist}
-        type={'square'}
+        type={buttonType}
+        text={buttonType === 'none' ? buttonText : undefined}
+        ariaLabel={buttonText}
       />
       <div>{overview}</div>
       <div>
@@ -47,7 +55,7 @@ const MovieDescription = ({
           <dd>{voteAverage}</dd>
 
           <dt>Genres</dt>
-          <dd>{genres.join(', ')}</dd>
+          <dd>{genres?.join(', ')}</dd>
         </dl>
       </div>
     </section>

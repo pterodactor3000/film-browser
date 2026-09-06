@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { DetailsPanel } from '#/components/panels/DetailsPanel/DetailsPanel.tsx'
 import { movieDetailsQueryOptions } from '#/lib/query-options.ts'
+import { Loading } from '#/components/ui/Loading/Loading.tsx'
 
 export const Route = createFileRoute('/details/$movieId')({
   component: DetailsPage,
@@ -15,6 +16,8 @@ export const Route = createFileRoute('/details/$movieId')({
   },
   loader: ({ context, params }) =>
     context.queryClient.query(movieDetailsQueryOptions(params.movieId)),
+  pendingComponent: Loading,
+  pendingMs: 0,
 })
 
 function DetailsPage() {

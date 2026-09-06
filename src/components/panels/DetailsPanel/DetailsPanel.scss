@@ -1,31 +1,76 @@
 @use '../../../styles/tokens';
 
 .details-page {
+  padding: 32px;
+
   display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: 2fr auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  grid-template-rows: auto auto;
   gap: 32px 32px;
-  grid-template-areas: 
+  grid-template-areas:
     'poster description'
     'additional-details additional-details';
 }
 
 .details-style {
   font-family: tokens.$font-family-default;
- 
+
   &--scifi {
     font-family: tokens.$font-family-scifi;
+    color: tokens.$default-theme-warning-a0;
+    background-color: tokens.$default-theme-primary-a40;
+
+    img {
+      border: solid 2px;
+    }
+
+    section.description,
+    section.additional-info {
+      background-color: tokens.$default-theme-primary-a50;
+      opacity: 0.8;
+      border: solid 2px;
+
+      button {
+        background-color: tokens.$default-theme-warning-a0;
+
+        &:hover {
+          background-color: tokens.$default-theme-warning-a20;
+        }
+      }
+    }
   }
 
   &--horror {
     font-family: tokens.$font-family-horror;
+    color: tokens.$default-theme-danger-a0;
+
+    background-color: tokens.$default-theme-dark-a0;
+
+    img {
+      border: solid 2px;
+    }
+
+    section.description,
+    section.additional-info {
+      background-color: tokens.$default-theme-dark-a0;
+      opacity: 0.8;
+      border: solid 2px;
+
+      a {
+        color: tokens.$default-theme-info-a20;
+      }
+
+      button {
+        background-color: tokens.$default-theme-danger-a0;
+
+        &:hover {
+          background-color: tokens.$default-theme-danger-a20;
+        }
+      }
+    }
   }
 
   &--thriller {
     font-family: tokens.$font-family-thriller;
-  }
-
-  img {
-    grid-area: poster;
   }
 }

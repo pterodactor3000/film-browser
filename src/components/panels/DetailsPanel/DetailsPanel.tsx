@@ -11,6 +11,7 @@ import {
 } from '#/lib/watchlist-collection.ts'
 
 import './DetailsPanel.scss'
+import { getGenreTheme } from '#/lib/genre-theme.ts'
 
 const DetailsPanel = ({
   movie,
@@ -21,13 +22,19 @@ const DetailsPanel = ({
 }) => {
   const { data: watchlist } = getLocalWatchlist()
   const [isInWatchlist, setIsInWatchlist] = useState(false)
-  const [genreStyle, setGenreStyle] = useState('')
+
+  const { style: genreStyle, buttonType } = getGenreTheme(genreId)
 
   const handleWatchlistClick = () => {
     if (isInWatchlist) {
       removeFromLocalWatchlist(movie.id)
     } else {
-      addToLocalWatchlist(movie.id, movie.title, movie.poster_path || '')
+      addToLocalWatchlist(
+        movie.id,
+        movie.title,
+        movie.poster_path || '',
+        genreId,
+      )
     }
   }
 
@@ -41,6 +48,7 @@ const DetailsPanel = ({
     voteAverage: movie.vote_average,
     isInWatchlist,
     watchlistButtonHandler: handleWatchlistClick,
+    buttonType,
   }
 
   const additionalInfo = {
@@ -77,26 +85,8 @@ const DetailsPanel = ({
     )
   }, [movie, watchlist])
 
-  useEffect(() => {
-    switch (genreId) {
-      case 878:
-        setGenreStyle('--scifi')
-        break
-      case 27:
-        setGenreStyle('--horror')
-        break
-      case 53:
-        setGenreStyle('--thriller')
-        break
-      default:
-        setGenreStyle('')
-        break
-    }
-    console.log(genreId)
-  }, [genreId])
-
   return (
-    <article className={clsx('details-page', `details-style${genreStyle}`)}>
+    <article className={clsx(`details-style${genreStyle}`, 'details-page')}>
       {movie.poster_path ? (
         <Image alt={movie.title} src={movie.poster_path} width={500} />
       ) : null}

@@ -8,12 +8,29 @@
 
   h3 {
     margin: 0;
+    text-align: center;
   }
 }
 
-.carousel, ul {
+.carousel {
   display: flex;
   flex-direction: row;
-  list-style: none;
+  align-items: center;
+}
+
+.carousel-viewport {
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
+}
+
+.carousel-viewport ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: max-content;
+  transition: transform 280ms ease-out;
 }

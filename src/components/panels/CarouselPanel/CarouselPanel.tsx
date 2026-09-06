@@ -1,10 +1,10 @@
 import { Carousel } from '#/components/blocks/Carousel/Carousel.tsx'
-import { GENRE_IDS } from '#/routes/index.tsx'
 import { clsx } from 'clsx'
 
 import { CarouselPanelErrorBoundary } from './CarouselPanelErrorBoundary'
 
 import './CarouselPanel.scss'
+import { GENRE_IDS } from '#/lib/genre-theme.ts'
 
 const CarouselPanel = () => {
   return (

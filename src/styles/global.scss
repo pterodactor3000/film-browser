@@ -23,7 +23,6 @@ body {
 }
 
 main {
-  padding: 32px;
   font-family: tokens.$font-family-default;
 }
 
@@ -39,7 +38,7 @@ header {
 
   background-color: tokens.$default-theme-primary-a40;
   color: tokens.$default-theme-light-a0;
-  
+
   a {
     color: inherit;
     text-decoration: none;

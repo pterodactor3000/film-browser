@@ -69,6 +69,32 @@ describe('DetailsPanel', () => {
     expect(article).toHaveClass('details-style--scifi')
     expect(article).not.toHaveClass('details-style--horror')
     expect(article).not.toHaveClass('details-style--thriller')
+    expect(screen.getByRole('button', { name: 'Add to watchlist' })).toHaveClass(
+      'button--square',
+    )
+  })
+
+  it('applies the horror genre class and a round watchlist button', () => {
+    getLocalWatchlist.mockReturnValue({ data: [] })
+
+    render(<DetailsPanel movie={movie} genreId={27} />)
+
+    expect(screen.getByRole('article')).toHaveClass('details-style--horror')
+    expect(screen.getByRole('button', { name: 'Add to watchlist' })).toHaveClass(
+      'button--round',
+    )
+  })
+
+  it('applies the thriller genre class and a default watchlist button', () => {
+    getLocalWatchlist.mockReturnValue({ data: [] })
+
+    render(<DetailsPanel movie={movie} genreId={53} />)
+
+    const button = screen.getByRole('button', { name: 'Add to watchlist' })
+    expect(screen.getByRole('article')).toHaveClass('details-style--thriller')
+    expect(button).not.toHaveClass('button--round')
+    expect(button).not.toHaveClass('button--square')
+    expect(button).toHaveTextContent('Add to watchlist')
   })
 
   it('does not apply a genre class when genreId is not a known carousel genre', () => {
@@ -77,9 +103,13 @@ describe('DetailsPanel', () => {
     render(<DetailsPanel movie={movie} genreId={12} />)
 
     const article = screen.getByRole('article')
-    expect(article).toHaveClass('details')
+    const button = screen.getByRole('button', { name: 'Add to watchlist' })
+    expect(article).toHaveClass('details-style details-page')
     expect(article).not.toHaveClass('details-style--scifi')
     expect(article).not.toHaveClass('details-style--horror')
     expect(article).not.toHaveClass('details-style--thriller')
+    expect(button).not.toHaveClass('button--round')
+    expect(button).not.toHaveClass('button--square')
   })
 })
+

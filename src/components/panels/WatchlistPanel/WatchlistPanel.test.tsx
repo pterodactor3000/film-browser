@@ -30,7 +30,14 @@ describe('WatchlistPanel', () => {
 
   it('renders movies from the watchlist', () => {
     getLocalWatchlist.mockReturnValue({
-      data: [{ id: 12345, title: 'Some Title', poster_path: '/png.png' }],
+      data: [
+        {
+          id: 12345,
+          title: 'Some Title',
+          poster_path: '/png.png',
+          genreId: 27,
+        },
+      ],
     })
 
     render(<WatchlistPanel />)

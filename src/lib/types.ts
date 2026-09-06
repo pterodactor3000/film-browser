@@ -90,5 +90,5 @@ interface MovieSimpleItem {
   id: number
   title: string
   poster_path: string | null
-  genreId: number
+  genreId: number | undefined
 }

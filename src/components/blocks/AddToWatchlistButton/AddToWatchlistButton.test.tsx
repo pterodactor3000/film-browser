@@ -11,6 +11,8 @@ describe('AddToWatchlistButton', () => {
       <AddToWatchlistButton
         handleWatchlistClick={() => {}}
         isInWatchlist={false}
+        type="round"
+        ariaLabel="Add to watchlist"
       />,
     )
 
@@ -24,6 +26,8 @@ describe('AddToWatchlistButton', () => {
       <AddToWatchlistButton
         handleWatchlistClick={() => {}}
         isInWatchlist={true}
+        type="round"
+        ariaLabel="Remove from watchlist"
       />,
     )
 
@@ -40,11 +44,28 @@ describe('AddToWatchlistButton', () => {
       <AddToWatchlistButton
         handleWatchlistClick={handleWatchlistClick}
         isInWatchlist={false}
+        type="round"
+        ariaLabel="Add to watchlist"
       />,
     )
 
     await user.click(screen.getByRole('button', { name: 'Add to watchlist' }))
 
     expect(handleWatchlistClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('applies the given button type class', () => {
+    render(
+      <AddToWatchlistButton
+        handleWatchlistClick={() => {}}
+        isInWatchlist={false}
+        type="square"
+        ariaLabel="Add to watchlist"
+      />,
+    )
+
+    expect(screen.getByRole('button', { name: 'Add to watchlist' })).toHaveClass(
+      'button--square',
+    )
   })
 })

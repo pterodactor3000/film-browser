@@ -7,8 +7,8 @@ import {
   genreDefinitionQueryOptions,
   genreListQueryOptions,
 } from '#/lib/query-options.ts'
-
-export const GENRE_IDS = [878, 27, 53]
+import { Loading } from '#/components/ui/Loading/Loading.tsx'
+import { GENRE_IDS } from '#/lib/genre-theme.ts'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -24,7 +24,7 @@ export const Route = createFileRoute('/')({
 function Home() {
   return (
     <main>
-      <Suspense fallback={<p>Loading your lists, be patient...</p>}>
+      <Suspense fallback={<Loading />}>
         <CarouselPanel />
       </Suspense>
     </main>

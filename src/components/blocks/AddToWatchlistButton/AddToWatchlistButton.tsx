@@ -5,19 +5,24 @@ interface AddToWatchlistButtonProps {
   handleWatchlistClick: () => void
   isInWatchlist: boolean
   type: 'round' | 'square' | 'none'
+  text?: string
+  ariaLabel: string
 }
 
 const AddToWatchlistButton = ({
   handleWatchlistClick,
   isInWatchlist,
   type,
+  text,
+  ariaLabel,
 }: AddToWatchlistButtonProps) => {
   return (
     <Button
       onClick={handleWatchlistClick}
-      ariaLabel={isInWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
+      ariaLabel={ariaLabel}
       icon={isInWatchlist ? <EyeSlashIcon /> : <EyeIcon />}
       type={type}
+      text={text}
     />
   )
 }

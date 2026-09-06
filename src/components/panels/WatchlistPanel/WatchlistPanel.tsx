@@ -4,6 +4,8 @@ import { clsx } from 'clsx'
 import { SimpleMovieItem } from '#/components/blocks/SimpleMovieItem/SimpleMovieItem.tsx'
 import { getLocalWatchlist } from '#/lib/watchlist-collection.ts'
 
+import './WatchlistPanel.scss'
+
 const WatchlistPanel = () => {
   const [watchlist, setWatchlist] = useState<MovieSimpleItem[]>([])
   const { data } = getLocalWatchlist()

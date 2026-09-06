@@ -14,7 +14,7 @@ describe('watchlist-collection', () => {
   })
 
   it('adds a movie to watchlist collection', () => {
-    addToLocalWatchlist(12345, 'Some Title', '/png.png')
+    addToLocalWatchlist(12345, 'Some Title', '/png.png', 27)
 
     expect(localWatchlistCollection.toArray).toEqual([
       {
@@ -27,6 +27,7 @@ describe('watchlist-collection', () => {
         id: 12345,
         title: 'Some Title',
         poster_path: '/png.png',
+        genreId: 27,
       },
     ])
   })

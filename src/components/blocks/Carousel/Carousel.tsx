@@ -30,15 +30,15 @@ const Carousel = ({ genreId }: { genreId: number }) => {
   // load next page of movies when showing second to last 5 movies from current page
   const STEP = 5
   const VISIBLE_COUNT = 10
+  const ITEM_WIDTH = 116
 
   const {
-    data: moviesList,
+    data: movies,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
   } = useSuspenseInfiniteQuery(genreListQueryOptions(genreId))
 
-  const movies = moviesList.pages.flatMap((page) => page.results)
   const [startIndex, setStartIndex] = useState(0)
 
   const batchCount = Math.ceil(movies.length / 5)
@@ -46,7 +46,6 @@ const Carousel = ({ genreId }: { genreId: number }) => {
   const isSecondToLastBatch = batchCount >= 2 && currentBatch === batchCount - 2
 
   const maxStartIndex = Math.max(0, movies.length - VISIBLE_COUNT)
-  const visibleMovies = movies.slice(startIndex, startIndex + VISIBLE_COUNT)
 
   const goNext = () => {
     setStartIndex((index) => Math.min(index + STEP, maxStartIndex))
@@ -75,19 +74,23 @@ const Carousel = ({ genreId }: { genreId: number }) => {
           ariaLabel="Previous"
           disabled={startIndex === 0}
         />
-        <ul>
-          {visibleMovies.map((movie) => (
-            <SimpleMovieItem
-              key={movie.id}
-              movie={{
-                id: movie.id,
-                title: movie.title,
-                poster_path: movie.poster_path,
-                genreId: genreId,
-              }}
-            />
-          ))}
-        </ul>
+        <div className="carousel-viewport">
+          <ul
+            style={{ transform: `translateX(-${startIndex * ITEM_WIDTH}px)` }}
+          >
+            {movies.map((movie) => (
+              <SimpleMovieItem
+                key={movie.id}
+                movie={{
+                  id: movie.id,
+                  title: movie.title,
+                  poster_path: movie.poster_path,
+                  genreId: genreId,
+                }}
+              />
+            ))}
+          </ul>
+        </div>
         <Button
           onClick={goNext}
           type="round"

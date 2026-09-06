@@ -3,6 +3,15 @@
 .additional-info {
   grid-area: additional-details;
 
+  background-color: tokens.$default-theme-surface-a50;
+  box-shadow: tokens.$default-theme-item-shadow;
+
+  padding: 32px;
+
+  a {
+    text-decoration: none;
+  }
+
   dl {
     display: grid;
     grid-template-columns: repeat(2, max-content 1fr);

@@ -16,10 +16,6 @@ vi.mock('#/lib/tmdb.ts', () => ({
   getMoviesByGenre,
 }))
 
-vi.mock('#/routes/index.tsx', () => ({
-  GENRE_IDS: [878, 27, 53],
-}))
-
 const genreDefinitions = {
   genres: [
     { id: 878, name: 'Science Fiction' },

@@ -25,6 +25,9 @@
     align-self: center;
     width: 2.5rem;
     height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   svg {

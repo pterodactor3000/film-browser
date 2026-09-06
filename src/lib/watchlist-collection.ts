@@ -16,11 +16,13 @@ const addToLocalWatchlist = (
   movieId: number,
   movieTitle: string,
   moviePoster: string,
+  genreId?: number,
 ) =>
   localWatchlistCollection.insert({
     id: movieId,
     title: movieTitle,
     poster_path: moviePoster,
+    genreId: genreId,
   })
 
 const removeFromLocalWatchlist = (movieId: number) =>

@@ -1,6 +1,29 @@
-import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query'
+import {
+  infiniteQueryOptions,
+  queryOptions,
+  type InfiniteData,
+} from '@tanstack/react-query'
 
 import { getMovieById, getMoviesByGenre, getGenreDefinitions } from './tmdb'
+
+/**
+ * Function that makes sure we do not have duplicated movies in carousel
+ */
+const selectUniqueMovies = (
+  data: InfiniteData<TmdbMovieListResponse, number>,
+) => {
+  const seenIds = new Set<number>()
+
+  return data.pages
+    .flatMap((page) => page.results)
+    .filter((movie) => {
+      if (seenIds.has(movie.id)) {
+        return false
+      }
+      seenIds.add(movie.id)
+      return true
+    })
+}
 
 const genreListQueryOptions = (genreId: number) => {
   return infiniteQueryOptions({
@@ -11,6 +34,7 @@ const genreListQueryOptions = (genreId: number) => {
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
     staleTime: 5 * 60 * 1000,
+    select: selectUniqueMovies,
   })
 }
 
