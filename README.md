@@ -1,174 +1,114 @@
-This app was generated with
+# Film browser
+
+A movie discovery app built with TanStack Start, TanStack Router, and TanStack Query. It pulls live data from The Movie Database (TMDB) API and lets you browse films by genre, view movie details, and manage a watchlist.
+
+---
+
+## Prerequisites
+
+Before you start:
+
+- **Node.js 24.** The project pins its Node version in `.nvmrc`. If you use [nvm](https://github.com/nvm-sh/nvm), run `nvm use` from the project root and it will switch automatically.
+- **pnpm 11.22.0.** The `package.json` declares `"packageManager": "pnpm@11.22.0"`. If you don't have pnpm, install it with:
+
+  ```bash
+  corepack enable
+  corepack prepare pnpm@11.22.0 --activate
+  ```
+
+- **A TMDB read-access token.** The app fetches all movie data from the TMDB API. Without the token, every server function that calls TMDB will throw. See the next section for how to get one.
+
+---
+
+## Get a TMDB API key
+
+The app uses TMDB's [v4 read-access token](https://developer.themoviedb.org/docs/authentication-application) (a long JWT), not the shorter v3 API key.
+
+1. Go to [themoviedb.org](https://www.themoviedb.org/) and create a free account.
+2. Open your account settings, then navigate to **API**.
+3. Request a developer API key. TMDB will ask for a brief description of your app; "personal film browser" is fine.
+4. After approval, scroll down to the **API Read Access Token** section and copy the long token (starts with `eyJ`).
+
+That long token is what goes in your `.env` file.
+
+---
+
+## Clone and configure
+
+Clone the repository and move into the project root:
 
 ```bash
-pnpm create vite
+git clone <repository-url> film-browser
+cd film-browser
 ```
 
-# Getting Started
+The repository ships with a `.env` file that has a placeholder token. Replace the value with your own token:
 
-To run this application:
+```bash
+# .env
+TMDB_ACCESS_TOKEN=eyJ...your-actual-token-here...
+```
+
+---
+
+## Install dependencies
+
+From the project root:
 
 ```bash
 pnpm install
+```
+
+---
+
+## Run the development server
+
+```bash
 pnpm dev
 ```
 
-# Building For Production
+The app starts on `http://localhost:3000`.
 
-To build this application for production:
+---
+
+## Run the tests
+
+```bash
+pnpm test
+```
+
+This runs `vitest run`, which executes all files matching `src/**/*.test.{ts,tsx}`.
+
+---
+
+## Build for production
 
 ```bash
 pnpm build
 ```
 
-## Styling
+Vite compiles the app into `dist/`. The build applies TanStack Start's SSR plugin (`tanstackStart`) and the React plugin, then tree-shakes and minifies.
 
-This project uses no Tailwind, or anything like that. Pure styles only.
+Check the build output for any TypeScript errors before deploying. TypeScript is configured in `tsconfig.json` with `strict: true`, `noUnusedLocals`, and `noUnusedParameters`.
 
-## Routing
+---
 
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
+## Preview the production build
 
-### Adding A Route
+After building, you can serve the compiled output locally:
 
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from '@tanstack/react-router'
+```bash
+pnpm preview
 ```
 
-Then anywhere in your JSX you can use it like so:
+This starts Vite's preview server pointing at `dist/`. It is not a production server; use it only to verify the production build behaves the same as development before deploying.
 
-```tsx
-<Link to="/about">About</Link>
+---
+
+## Regenerate routes
+
+TanStack Router generates `src/routeTree.gen.ts` from the files in `src/routes/`. If you add, rename, or delete a route file, regenerate the tree:
+
+```bash
+pnpm generate-routes
 ```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-
-  return <div>Server time: {time}</div>
-}
-```
-
-## API Routes
-
-You can create API routes by using the `server` property in your route definitions:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
-
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
-```
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
