@@ -1,0 +1,56 @@
+@use './tokens';
+
+:root {
+  --font-size-root: 100%;
+  --space-md: 2rem;
+  --font-size-header: 2rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: tokens.$default-theme-light-a0;
+  color: tokens.$default-theme-primary-a50;
+}
+
+main {
+  font-family: tokens.$font-family-default;
+}
+
+header {
+  position: sticky;
+  min-height: 80px;
+  font-size: 2rem;
+  font-family: tokens.$font-family-header;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+
+  background-color: tokens.$default-theme-primary-a40;
+  color: tokens.$default-theme-light-a0;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: tokens.$default-theme-warning-a20;
+    }
+  }
+}
+
+dl {
+  dt {
+    font-weight: 600;
+  }
+}

@@ -1,14 +1,32 @@
+import { Suspense } from 'react'
+
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/')({ component: Home })
+import { CarouselPanel } from '#/components/panels/CarouselPanel/CarouselPanel.tsx'
+import { Loading } from '#/components/ui/Loading/Loading.tsx'
+import { GENRE_IDS } from '#/lib/genre-theme.ts'
+import {
+  genreDefinitionQueryOptions,
+  genreListQueryOptions,
+} from '#/lib/query-options.ts'
+
+export const Route = createFileRoute('/')({
+  component: Home,
+  loader: ({ context }) =>
+    Promise.all([
+      ...GENRE_IDS.map((genreId) =>
+        context.queryClient.infiniteQuery(genreListQueryOptions(genreId)),
+      ),
+      context.queryClient.query(genreDefinitionQueryOptions()),
+    ]),
+})
 
 function Home() {
   return (
-    <div className="p-8">
-      <h1 className="text-4xl font-bold">Welcome to TanStack Start</h1>
-      <p className="mt-4 text-lg">
-        Edit <code>src/routes/index.tsx</code> to get started.
-      </p>
-    </div>
+    <main>
+      <Suspense fallback={<Loading />}>
+        <CarouselPanel />
+      </Suspense>
+    </main>
   )
 }

@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WatchlistRouteImport } from './routes/watchlist'
+import { Route as DetailsMovieIdRouteImport } from './routes/details.$movieId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WatchlistRoute = WatchlistRouteImport.update({
+  id: '/watchlist',
+  path: '/watchlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DetailsMovieIdRoute = DetailsMovieIdRouteImport.update({
+  id: '/details/$movieId',
+  path: '/details/$movieId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/watchlist': typeof WatchlistRoute
+  '/details/$movieId': typeof DetailsMovieIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/watchlist': typeof WatchlistRoute
+  '/details/$movieId': typeof DetailsMovieIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/watchlist': typeof WatchlistRoute
+  '/details/$movieId': typeof DetailsMovieIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/watchlist' | '/details/$movieId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/watchlist' | '/details/$movieId'
+  id: '__root__' | '/' | '/watchlist' | '/details/$movieId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  WatchlistRoute: typeof WatchlistRoute
+  DetailsMovieIdRoute: typeof DetailsMovieIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,21 +68,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/watchlist': {
+      id: '/watchlist'
+      path: '/watchlist'
+      fullPath: '/watchlist'
+      preLoaderRoute: typeof WatchlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/details/$movieId': {
+      id: '/details/$movieId'
+      path: '/details/$movieId'
+      fullPath: '/details/$movieId'
+      preLoaderRoute: typeof DetailsMovieIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  WatchlistRoute: WatchlistRoute,
+  DetailsMovieIdRoute: DetailsMovieIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

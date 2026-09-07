@@ -1,0 +1,36 @@
+@use '../../../styles/tokens';
+
+.carousel-wrapper {
+  border-radius: 0.5rem;
+  background-color: tokens.$default-theme-surface-a10;
+  box-shadow: tokens.$default-theme-item-shadow;
+  padding: 1rem;
+
+  h3 {
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.carousel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.carousel-viewport {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.carousel-viewport ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: max-content;
+  transition: transform 280ms ease-out;
+}
