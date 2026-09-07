@@ -94,7 +94,9 @@ describe('tmdb', () => {
     await getMovieById({ movieId: '../../genre/movie/list' })
 
     const requestUrl = new URL(String(fetchMock.mock.calls[0][0]))
-    expect(requestUrl.pathname).toEqual('/3/movie/..%2F..%2Fgenre%2Fmovie%2Flist')
+    expect(requestUrl.pathname).toEqual(
+      '/3/movie/..%2F..%2Fgenre%2Fmovie%2Flist',
+    )
   })
 
   it('returns the genre definitions', async () => {

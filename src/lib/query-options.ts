@@ -4,6 +4,8 @@ import {
   type InfiniteData,
 } from '@tanstack/react-query'
 
+import type { TmdbMovieListResponse } from '#/lib/types.ts'
+
 import {
   fetchGenreDefinitions,
   fetchMovieById,
@@ -32,7 +34,8 @@ const selectUniqueMovies = (
 const genreListQueryOptions = (genreId: number) => {
   return infiniteQueryOptions({
     queryKey: ['movies', 'genre', genreId],
-    queryFn: ({ pageParam }) => fetchMoviesByGenre({ genreId, page: pageParam }),
+    queryFn: ({ pageParam }) =>
+      fetchMoviesByGenre({ genreId, page: pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,

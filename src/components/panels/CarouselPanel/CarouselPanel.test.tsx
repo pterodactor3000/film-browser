@@ -60,20 +60,26 @@ describe('CarouselPanel', () => {
       await screen.findByRole('heading', { name: 'Science Fiction' }),
     ).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Horror' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Thriller' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Thriller' }),
+    ).toBeInTheDocument()
     expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(3)
   })
 
   it('renders an error message when a genre query fails', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {})
     fetchGenreDefinitions.mockResolvedValue(genreDefinitions)
-    fetchMoviesByGenre.mockImplementation(({ genreId }: { genreId: number }) => {
-      if (genreId === 27) {
-        return Promise.reject(new Error('Failed to fetch movies for genre 27'))
-      }
+    fetchMoviesByGenre.mockImplementation(
+      ({ genreId }: { genreId: number }) => {
+        if (genreId === 27) {
+          return Promise.reject(
+            new Error('Failed to fetch movies for genre 27'),
+          )
+        }
 
-      return Promise.resolve(emptyMovieList)
-    })
+        return Promise.resolve(emptyMovieList)
+      },
+    )
 
     renderCarouselPanel()
 

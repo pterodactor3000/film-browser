@@ -92,3 +92,16 @@ interface MovieSimpleItem {
   poster_path: string | null
   genreId: number | undefined
 }
+
+export type {
+  TmdbMovieListItem,
+  TmdbMovieListResponse,
+  TmdbCollection,
+  TmdbGenre,
+  TmdbProductionCompany,
+  TmdbProductionCountry,
+  TmdbSpokenLanguage,
+  TmdbMovieDetails,
+  TmdbGenreListResponse,
+  MovieSimpleItem,
+}

@@ -1,28 +1,41 @@
-import { useEffect, useState } from 'react'
-import { clsx } from 'clsx'
+import { ClientOnly } from '@tanstack/react-router'
 
 import { SimpleMovieItem } from '#/components/blocks/SimpleMovieItem/SimpleMovieItem.tsx'
+import { Loading } from '#/components/ui/Loading/Loading.tsx'
 import { getLocalWatchlist } from '#/lib/watchlist-collection.ts'
 
 import './WatchlistPanel.scss'
 
-const WatchlistPanel = () => {
-  const [watchlist, setWatchlist] = useState<MovieSimpleItem[]>([])
-  const { data } = getLocalWatchlist()
+const WatchlistFallback = () => {
+  return <Loading label="Loading watchlist..." />
+}
 
-  useEffect(() => {
-    setWatchlist(data)
-  }, [data])
+const WatchlistList = () => {
+  const { data: watchlist, isReady } = getLocalWatchlist()
+
+  if (!isReady) {
+    return <WatchlistFallback />
+  }
+
+  if (watchlist.length === 0) {
+    return <p>Wow, so empty...</p>
+  }
 
   return (
-    <article className={clsx('watchlist-grid')}>
-      <ul>
-        {watchlist.length
-          ? watchlist.map((movie) => (
-              <SimpleMovieItem key={movie.id} movie={movie} />
-            ))
-          : 'Wow, so empty...'}
-      </ul>
+    <ul>
+      {watchlist.map((movie) => (
+        <SimpleMovieItem key={movie.id} movie={movie} />
+      ))}
+    </ul>
+  )
+}
+
+const WatchlistPanel = () => {
+  return (
+    <article className="watchlist-grid">
+      <ClientOnly fallback={<WatchlistFallback />}>
+        <WatchlistList />
+      </ClientOnly>
     </article>
   )
 }

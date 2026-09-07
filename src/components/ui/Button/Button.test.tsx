@@ -9,9 +9,7 @@ import { Button } from './Button'
 
 describe('Button', () => {
   it('renders button text', () => {
-    render(
-      <Button type="none" text="Add to watchlist" onClick={() => {}} />,
-    )
+    render(<Button type="none" text="Add to watchlist" onClick={() => {}} />)
 
     expect(
       screen.getByRole('button', { name: 'Add to watchlist' }),
@@ -30,25 +28,19 @@ describe('Button', () => {
   })
 
   it('renders round type', () => {
-    render(
-      <Button type="round" text="Add to watchlist" onClick={() => {}} />,
-    )
+    render(<Button type="round" text="Add to watchlist" onClick={() => {}} />)
 
-    expect(screen.getByRole('button', { name: 'Add to watchlist' })).toHaveClass(
-      'button',
-      'button--round',
-    )
+    expect(
+      screen.getByRole('button', { name: 'Add to watchlist' }),
+    ).toHaveClass('button', 'button--round')
   })
 
   it('renders square type', () => {
-    render(
-      <Button type="square" text="Add to watchlist" onClick={() => {}} />,
-    )
+    render(<Button type="square" text="Add to watchlist" onClick={() => {}} />)
 
-    expect(screen.getByRole('button', { name: 'Add to watchlist' })).toHaveClass(
-      'button',
-      'button--square',
-    )
+    expect(
+      screen.getByRole('button', { name: 'Add to watchlist' }),
+    ).toHaveClass('button', 'button--square')
   })
 
   it('renders icon only button', () => {

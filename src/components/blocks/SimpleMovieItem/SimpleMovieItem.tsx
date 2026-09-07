@@ -3,6 +3,7 @@ import { clsx } from 'clsx'
 import { Link } from '@tanstack/react-router'
 
 import { Image } from '#/components/ui/Image/Image.tsx'
+import type { MovieSimpleItem } from '#/lib/types.ts'
 
 import './SimpleMovieItem.scss'
 

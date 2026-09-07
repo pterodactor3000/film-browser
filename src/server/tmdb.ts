@@ -1,4 +1,9 @@
-// src/server/tmdb.ts
+import type {
+  TmdbGenreListResponse,
+  TmdbMovieDetails,
+  TmdbMovieListResponse,
+} from '#/lib/types.ts'
+
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 
 const fetchTmdb = async <TResponse>(

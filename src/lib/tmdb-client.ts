@@ -1,3 +1,9 @@
+import type {
+  TmdbGenreListResponse,
+  TmdbMovieDetails,
+  TmdbMovieListResponse,
+} from '#/lib/types.ts'
+
 const requestApi = async <TResponse>(
   pathname: string,
   searchParams: Record<string, string> = {},

@@ -7,6 +7,7 @@ const localWatchlistCollection = createCollection(
 )
 
 const getLocalWatchlist = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useLiveQuery({
     query: (q) => q.from({ watchlist: localWatchlistCollection }),
   })

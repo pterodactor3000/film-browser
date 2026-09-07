@@ -1,11 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query'
-import {
-  HeadContent,
-  Scripts,
-  createRootRouteWithContext,
-} from '@tanstack/react-router'
+import { createRootRouteWithContext } from '@tanstack/react-router'
 
-import { Header } from '#/components/ui/Header/Header.tsx'
+import { RootDocument } from '#/components/ui/RootDocument/RootDocument.tsx'
 
 import appCss from '../styles/global.scss?url'
 
@@ -70,18 +66,3 @@ window.__vite_plugin_react_preamble_installed__ = true`,
   }),
   shellComponent: RootDocument,
 })
-
-function RootDocument({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <Header />
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  )
-}

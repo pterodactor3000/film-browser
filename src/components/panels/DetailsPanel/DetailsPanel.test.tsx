@@ -2,6 +2,8 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { render, screen } from '@testing-library/react'
 
+import type { TmdbMovieDetails } from '#/lib/types.ts'
+
 import { DetailsPanel } from './DetailsPanel'
 
 const { getLocalWatchlist } = vi.hoisted(() => ({
@@ -45,7 +47,7 @@ const movie: TmdbMovieDetails = {
 
 describe('DetailsPanel', () => {
   it('renders all page items with the success genre class and not the others', () => {
-    getLocalWatchlist.mockReturnValue({ data: [] })
+    getLocalWatchlist.mockReturnValue({ data: [], isReady: true })
 
     render(<DetailsPanel movie={movie} genreId={878} />)
 
@@ -69,24 +71,24 @@ describe('DetailsPanel', () => {
     expect(article).toHaveClass('details-style--scifi')
     expect(article).not.toHaveClass('details-style--horror')
     expect(article).not.toHaveClass('details-style--thriller')
-    expect(screen.getByRole('button', { name: 'Add to watchlist' })).toHaveClass(
-      'button--square',
-    )
+    expect(
+      screen.getByRole('button', { name: 'Add to watchlist' }),
+    ).toHaveClass('button--square')
   })
 
   it('applies the horror genre class and a round watchlist button', () => {
-    getLocalWatchlist.mockReturnValue({ data: [] })
+    getLocalWatchlist.mockReturnValue({ data: [], isReady: true })
 
     render(<DetailsPanel movie={movie} genreId={27} />)
 
     expect(screen.getByRole('article')).toHaveClass('details-style--horror')
-    expect(screen.getByRole('button', { name: 'Add to watchlist' })).toHaveClass(
-      'button--round',
-    )
+    expect(
+      screen.getByRole('button', { name: 'Add to watchlist' }),
+    ).toHaveClass('button--round')
   })
 
   it('applies the thriller genre class and a default watchlist button', () => {
-    getLocalWatchlist.mockReturnValue({ data: [] })
+    getLocalWatchlist.mockReturnValue({ data: [], isReady: true })
 
     render(<DetailsPanel movie={movie} genreId={53} />)
 
@@ -98,7 +100,7 @@ describe('DetailsPanel', () => {
   })
 
   it('does not apply a genre class when genreId is not a known carousel genre', () => {
-    getLocalWatchlist.mockReturnValue({ data: [] })
+    getLocalWatchlist.mockReturnValue({ data: [], isReady: true })
 
     render(<DetailsPanel movie={movie} genreId={12} />)
 
@@ -112,4 +114,3 @@ describe('DetailsPanel', () => {
     expect(button).not.toHaveClass('button--square')
   })
 })
-

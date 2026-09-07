@@ -1,4 +1,4 @@
-import { AddToWatchlistButton } from '../AddToWatchlistButton/AddToWatchlistButton'
+import type { ReactNode } from 'react'
 
 import './MovieDescription.scss'
 
@@ -10,9 +10,7 @@ interface MovieDescriptionProps {
   runtimeMinutes: number | null
   releaseYear: string
   voteAverage: number
-  isInWatchlist: boolean
-  watchlistButtonHandler: () => void
-  buttonType: 'round' | 'square' | 'none'
+  watchlistButton: ReactNode
 }
 
 const MovieDescription = ({
@@ -23,25 +21,13 @@ const MovieDescription = ({
   runtimeMinutes,
   releaseYear,
   voteAverage,
-  isInWatchlist,
-  watchlistButtonHandler,
-  buttonType,
+  watchlistButton,
 }: MovieDescriptionProps) => {
-  const buttonText = isInWatchlist
-    ? 'Remove from watchlist'
-    : 'Add to watchlist'
-
   return (
     <section className="description">
       <h2>{title}</h2>
       <h4>{tagline}</h4>
-      <AddToWatchlistButton
-        handleWatchlistClick={watchlistButtonHandler}
-        isInWatchlist={isInWatchlist}
-        type={buttonType}
-        text={buttonType === 'none' ? buttonText : undefined}
-        ariaLabel={buttonText}
-      />
+      {watchlistButton}
       <div>{overview}</div>
       <div>
         <dl>
