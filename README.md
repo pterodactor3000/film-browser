@@ -12,7 +12,7 @@ SSR runs through a hand-written Express server (`server.ts`). On each request it
 
 TMDB access lives entirely server-side. `src/server/tmdb.ts` holds the token and the outbound fetch. `src/server/tmdb-routes.ts` exposes `/api/genres`, `/api/movies`, and `/api/movies/:movieId`. `src/lib/tmdb-client.ts` imports the server module directly during SSR (behind `import.meta.env.SSR` to keep it out of the browser bundle) and hits the HTTP API on the client.
 
-Route loaders prefetch data into the Query cache. The cache is dehydrated into the server-rendered HTML so the client hydrates without a second round-trip. The watchlist reads `localStorage` and is client-only.
+Route loaders prefetch data into the Query cache. The cache is dehydrated into the server-rendered HTML so the client hydrates without a second round-trip. The watchlist reads `localStorage`, so `WatchlistPanel` and the details watchlist button wrap in TanStack Router's `ClientOnly`: SSR emits a fallback, and the real data mounts after hydration.
 
 ### Project creation
 
@@ -41,10 +41,12 @@ pnpm install
 
 ## Scripts
 
-| Command | What it does |
-|---|---|
-| `pnpm dev` | Dev server with HMR on `http://localhost:3000` |
-| `pnpm build` | Client + server production builds into `dist/` |
-| `pnpm start` | Serve the production build |
-| `pnpm test` | Vitest run (all `*.test.{ts,tsx}`) |
-| `pnpm typecheck` | `tsc --noEmit` |
+| Command          | What it does                                     |
+| ---------------- | ------------------------------------------------ |
+| `pnpm dev`       | Dev server with HMR on `http://localhost:3000`   |
+| `pnpm build`     | Client + server production builds into `dist/`   |
+| `pnpm start`     | Serve the production build                       |
+| `pnpm test`      | Vitest run (all `*.test.{ts,tsx}`)               |
+| `pnpm typecheck` | `tsc --noEmit`                                   |
+| `pnpm format`    | Format the code according to the prettier config |
+| `pnpm lint`      | Check linting                                    |
