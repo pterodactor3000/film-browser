@@ -6,14 +6,14 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query'
 
+import { Button } from '#/components/ui/Button/Button.tsx'
 import {
   genreDefinitionQueryOptions,
   genreListQueryOptions,
 } from '#/lib/query-options.ts'
-import { Button } from '#/components/ui/Button/Button.tsx'
 
-import { SimpleMovieItem } from '../SimpleMovieItem/SimpleMovieItem'
 import { ChevronLeft, ChevronRight } from '../../ui/Icons'
+import { SimpleMovieItem } from '../SimpleMovieItem/SimpleMovieItem'
 
 import './Carousel.scss'
 

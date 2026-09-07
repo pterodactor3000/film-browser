@@ -8,14 +8,14 @@ import userEvent from '@testing-library/user-event'
 
 import { Carousel } from './Carousel'
 
-const { getGenreDefinitions, getMoviesByGenre } = vi.hoisted(() => ({
-  getGenreDefinitions: vi.fn(),
-  getMoviesByGenre: vi.fn(),
+const { fetchGenreDefinitions, fetchMoviesByGenre } = vi.hoisted(() => ({
+  fetchGenreDefinitions: vi.fn(),
+  fetchMoviesByGenre: vi.fn(),
 }))
 
-vi.mock('#/lib/tmdb.ts', () => ({
-  getGenreDefinitions,
-  getMoviesByGenre,
+vi.mock('#/lib/tmdb-client.ts', () => ({
+  fetchGenreDefinitions,
+  fetchMoviesByGenre,
 }))
 
 vi.mock('@tanstack/react-router', () => ({
@@ -102,8 +102,8 @@ describe('Carousel', () => {
   })
 
   it('puts the success genreId on movie links and not another genre id', async () => {
-    getGenreDefinitions.mockResolvedValue(genreDefinitions)
-    getMoviesByGenre.mockResolvedValue(oneMovieList)
+    fetchGenreDefinitions.mockResolvedValue(genreDefinitions)
+    fetchMoviesByGenre.mockResolvedValue(oneMovieList)
 
     renderCarousel(878)
 
@@ -119,8 +119,8 @@ describe('Carousel', () => {
   })
 
   it('puts the fail genreId on movie links and not a carousel genre id', async () => {
-    getGenreDefinitions.mockResolvedValue(genreDefinitions)
-    getMoviesByGenre.mockResolvedValue(oneMovieList)
+    fetchGenreDefinitions.mockResolvedValue(genreDefinitions)
+    fetchMoviesByGenre.mockResolvedValue(oneMovieList)
 
     renderCarousel(12)
 
@@ -136,12 +136,10 @@ describe('Carousel', () => {
   })
 
   it('loads the next page when the second-to-last batch is visible', async () => {
-    getGenreDefinitions.mockResolvedValue(genreDefinitions)
-    getMoviesByGenre.mockImplementation(
-      ({ data }: { data: { genreId: number; page?: number } }) => {
-        const page = data.page ?? 1
-        return Promise.resolve(createMoviePage(page, 2))
-      },
+    fetchGenreDefinitions.mockResolvedValue(genreDefinitions)
+    fetchMoviesByGenre.mockImplementation(
+      ({ page = 1 }: { genreId: number; page?: number }) =>
+        Promise.resolve(createMoviePage(page, 2)),
     )
 
     const user = userEvent.setup()
@@ -150,9 +148,10 @@ describe('Carousel', () => {
     expect(await screen.findByText('Page 1 Movie 1')).toBeInTheDocument()
     expect(screen.getByText('Page 1 Movie 10')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Previous' })).toBeDisabled()
-    expect(getMoviesByGenre).toHaveBeenCalledTimes(1)
-    expect(getMoviesByGenre).toHaveBeenCalledWith({
-      data: { genreId: 878, page: 1 },
+    expect(fetchMoviesByGenre).toHaveBeenCalledTimes(1)
+    expect(fetchMoviesByGenre).toHaveBeenCalledWith({
+      genreId: 878,
+      page: 1,
     })
 
     await user.click(screen.getByRole('button', { name: 'Next' }))
@@ -160,7 +159,7 @@ describe('Carousel', () => {
     expect(screen.getByText('Page 1 Movie 6')).toBeInTheDocument()
     expect(screen.getByText('Page 1 Movie 15')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Previous' })).toBeEnabled()
-    expect(getMoviesByGenre).toHaveBeenCalledTimes(1)
+    expect(fetchMoviesByGenre).toHaveBeenCalledTimes(1)
 
     await user.click(screen.getByRole('button', { name: 'Next' }))
 
@@ -168,8 +167,9 @@ describe('Carousel', () => {
     expect(screen.getByText('Page 1 Movie 20')).toBeInTheDocument()
 
     await waitFor(() => {
-      expect(getMoviesByGenre).toHaveBeenCalledWith({
-        data: { genreId: 878, page: 2 },
+      expect(fetchMoviesByGenre).toHaveBeenCalledWith({
+        genreId: 878,
+        page: 2,
       })
     })
 

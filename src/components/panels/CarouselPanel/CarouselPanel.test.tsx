@@ -6,14 +6,14 @@ import { render, screen } from '@testing-library/react'
 
 import { CarouselPanel } from './CarouselPanel'
 
-const { getGenreDefinitions, getMoviesByGenre } = vi.hoisted(() => ({
-  getGenreDefinitions: vi.fn(),
-  getMoviesByGenre: vi.fn(),
+const { fetchGenreDefinitions, fetchMoviesByGenre } = vi.hoisted(() => ({
+  fetchGenreDefinitions: vi.fn(),
+  fetchMoviesByGenre: vi.fn(),
 }))
 
-vi.mock('#/lib/tmdb.ts', () => ({
-  getGenreDefinitions,
-  getMoviesByGenre,
+vi.mock('#/lib/tmdb-client.ts', () => ({
+  fetchGenreDefinitions,
+  fetchMoviesByGenre,
 }))
 
 const genreDefinitions = {
@@ -51,8 +51,8 @@ const renderCarouselPanel = () => {
 
 describe('CarouselPanel', () => {
   it('renders three carousels when genre queries succeed', async () => {
-    getGenreDefinitions.mockResolvedValue(genreDefinitions)
-    getMoviesByGenre.mockResolvedValue(emptyMovieList)
+    fetchGenreDefinitions.mockResolvedValue(genreDefinitions)
+    fetchMoviesByGenre.mockResolvedValue(emptyMovieList)
 
     renderCarouselPanel()
 
@@ -66,9 +66,9 @@ describe('CarouselPanel', () => {
 
   it('renders an error message when a genre query fails', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {})
-    getGenreDefinitions.mockResolvedValue(genreDefinitions)
-    getMoviesByGenre.mockImplementation(({ data }: { data: { genreId: number } }) => {
-      if (data.genreId === 27) {
+    fetchGenreDefinitions.mockResolvedValue(genreDefinitions)
+    fetchMoviesByGenre.mockImplementation(({ genreId }: { genreId: number }) => {
+      if (genreId === 27) {
         return Promise.reject(new Error('Failed to fetch movies for genre 27'))
       }
 

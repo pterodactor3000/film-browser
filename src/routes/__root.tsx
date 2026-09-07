@@ -4,12 +4,8 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import { Header } from '#/components/ui/Header/Header.tsx'
-
-import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import appCss from '../styles/global.scss?url'
 
@@ -47,6 +43,30 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         href: appCss,
       },
     ],
+    // TanStack Start used to inject the client entry. Without it the document
+    // renders but never hydrates, so the entry (and Vite's dev client) are
+    // declared here instead.
+    scripts: [
+      ...(import.meta.env.PROD
+        ? []
+        : [
+            {
+              type: 'module',
+              children: `import RefreshRuntime from '/@react-refresh'
+RefreshRuntime.injectIntoGlobalHook(window)
+window.$RefreshReg$ = () => {}
+window.$RefreshSig$ = () => (type) => type
+window.__vite_plugin_react_preamble_installed__ = true`,
+            },
+            { type: 'module', src: '/@vite/client' },
+          ]),
+      {
+        type: 'module',
+        src: import.meta.env.PROD
+          ? '/entry-client.js'
+          : '/src/entry-client.tsx',
+      },
+    ],
   }),
   shellComponent: RootDocument,
 })
@@ -60,18 +80,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <Header />
         {children}
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-            TanStackQueryDevtools,
-          ]}
-        />
         <Scripts />
       </body>
     </html>

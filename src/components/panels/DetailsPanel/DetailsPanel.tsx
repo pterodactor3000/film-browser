@@ -9,9 +9,9 @@ import {
   getLocalWatchlist,
   removeFromLocalWatchlist,
 } from '#/lib/watchlist-collection.ts'
+import { getGenreTheme } from '#/lib/genre-theme.ts'
 
 import './DetailsPanel.scss'
-import { getGenreTheme } from '#/lib/genre-theme.ts'
 
 const DetailsPanel = ({
   movie,

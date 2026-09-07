@@ -4,7 +4,11 @@ import {
   type InfiniteData,
 } from '@tanstack/react-query'
 
-import { getMovieById, getMoviesByGenre, getGenreDefinitions } from './tmdb'
+import {
+  fetchGenreDefinitions,
+  fetchMovieById,
+  fetchMoviesByGenre,
+} from './tmdb-client'
 
 /**
  * Function that makes sure we do not have duplicated movies in carousel
@@ -28,8 +32,7 @@ const selectUniqueMovies = (
 const genreListQueryOptions = (genreId: number) => {
   return infiniteQueryOptions({
     queryKey: ['movies', 'genre', genreId],
-    queryFn: ({ pageParam }) =>
-      getMoviesByGenre({ data: { genreId, page: pageParam } }),
+    queryFn: ({ pageParam }) => fetchMoviesByGenre({ genreId, page: pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
@@ -41,7 +44,7 @@ const genreListQueryOptions = (genreId: number) => {
 const movieDetailsQueryOptions = (movieId: string) => {
   return queryOptions({
     queryKey: ['movie', movieId],
-    queryFn: () => getMovieById({ data: { movieId } }),
+    queryFn: () => fetchMovieById({ movieId }),
     staleTime: 5 * 60 * 1000,
   })
 }
@@ -49,7 +52,7 @@ const movieDetailsQueryOptions = (movieId: string) => {
 const genreDefinitionQueryOptions = () => {
   return queryOptions({
     queryKey: ['genreDefinition'],
-    queryFn: () => getGenreDefinitions(),
+    queryFn: () => fetchGenreDefinitions(),
     staleTime: 5 * 60 * 1000,
   })
 }
