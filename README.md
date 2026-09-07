@@ -1,114 +1,50 @@
 # Film browser
 
-A movie discovery app built with TanStack Start, TanStack Router, and TanStack Query. It pulls live data from The Movie Database (TMDB) API and lets you browse films by genre, view movie details, and manage a watchlist.
+Browse films by genre, view details, and manage a watchlist. Data from the [TMDB API](https://developer.themoviedb.org/).
+
+Built with: TanStack Router, TanStack Query, TanStack DB, React 19, SCSS, Vite.
+
+---
+
+## Architecture
+
+SSR runs through a hand-written Express server (`server.ts`). On each request it invokes `renderRouterToStream` from `@tanstack/react-router/ssr/server` and streams the result. The client hydrates via `src/entry-client.tsx`. Vite builds twice: `pnpm build:client` for the browser bundle and `pnpm build:server` for the Node entry.
+
+TMDB access lives entirely server-side. `src/server/tmdb.ts` holds the token and the outbound fetch. `src/server/tmdb-routes.ts` exposes `/api/genres`, `/api/movies`, and `/api/movies/:movieId`. `src/lib/tmdb-client.ts` imports the server module directly during SSR (behind `import.meta.env.SSR` to keep it out of the browser bundle) and hits the HTTP API on the client.
+
+Route loaders prefetch data into the Query cache. The cache is dehydrated into the server-rendered HTML so the client hydrates without a second round-trip. The watchlist reads `localStorage` and is client-only.
+
+### Project creation
+
+Scaffolded with `pnpm create vite`, React, TanStack Router variant. At the time `create-vite` delegated that variant to `create-tsrouter-app`. The init commit is that generator's output. Removed from it: `AGENTS.md`, `.cta.json`, `src/integrations/`, and the generated README. Still generator output: `src/router.tsx` and `src/routeTree.gen.ts`. Everything else is hand-written.
 
 ---
 
 ## Prerequisites
 
-Before you start:
-
-- **Node.js 24.** The project pins its Node version in `.nvmrc`. If you use [nvm](https://github.com/nvm-sh/nvm), run `nvm use` from the project root and it will switch automatically.
-- **pnpm 11.22.0.** The `package.json` declares `"packageManager": "pnpm@11.22.0"`. If you don't have pnpm, install it with:
-
-  ```bash
-  corepack enable
-  corepack prepare pnpm@11.22.0 --activate
-  ```
-
-- **A TMDB read-access token.** The app fetches all movie data from the TMDB API. Without the token, every server function that calls TMDB will throw. See the next section for how to get one.
+- **Node.js 24.** Pinned in `.nvmrc`. Run `nvm use` to switch automatically.
+- **pnpm 11.22.0.** If missing: `corepack enable && corepack prepare pnpm@11.22.0 --activate`
+- **TMDB read-access token.** A long JWT starting with `eyJ`, not the shorter v3 key. Get one at [themoviedb.org](https://www.themoviedb.org/) under Settings > API > API Read Access Token.
 
 ---
 
-## Get a TMDB API key
-
-The app uses TMDB's [v4 read-access token](https://developer.themoviedb.org/docs/authentication-application) (a long JWT), not the shorter v3 API key.
-
-1. Go to [themoviedb.org](https://www.themoviedb.org/) and create a free account.
-2. Open your account settings, then navigate to **API**.
-3. Request a developer API key. TMDB will ask for a brief description of your app; "personal film browser" is fine.
-4. After approval, scroll down to the **API Read Access Token** section and copy the long token (starts with `eyJ`).
-
-That long token is what goes in your `.env` file.
-
----
-
-## Clone and configure
-
-Clone the repository and move into the project root:
+## Setup
 
 ```bash
 git clone <repository-url> film-browser
 cd film-browser
-```
-
-The repository ships with a `.env` file that has a placeholder token. Replace the value with your own token:
-
-```bash
-# .env
-TMDB_ACCESS_TOKEN=eyJ...your-actual-token-here...
-```
-
----
-
-## Install dependencies
-
-From the project root:
-
-```bash
+cp .env.example .env          # then replace the placeholder with your token
 pnpm install
 ```
 
 ---
 
-## Run the development server
+## Scripts
 
-```bash
-pnpm dev
-```
-
-The app starts on `http://localhost:3000`.
-
----
-
-## Run the tests
-
-```bash
-pnpm test
-```
-
-This runs `vitest run`, which executes all files matching `src/**/*.test.{ts,tsx}`.
-
----
-
-## Build for production
-
-```bash
-pnpm build
-```
-
-Vite compiles the app into `dist/`. The build applies TanStack Start's SSR plugin (`tanstackStart`) and the React plugin, then tree-shakes and minifies.
-
-Check the build output for any TypeScript errors before deploying. TypeScript is configured in `tsconfig.json` with `strict: true`, `noUnusedLocals`, and `noUnusedParameters`.
-
----
-
-## Preview the production build
-
-After building, you can serve the compiled output locally:
-
-```bash
-pnpm preview
-```
-
-This starts Vite's preview server pointing at `dist/`. It is not a production server; use it only to verify the production build behaves the same as development before deploying.
-
----
-
-## Regenerate routes
-
-TanStack Router generates `src/routeTree.gen.ts` from the files in `src/routes/`. If you add, rename, or delete a route file, regenerate the tree:
-
-```bash
-pnpm generate-routes
-```
+| Command | What it does |
+|---|---|
+| `pnpm dev` | Dev server with HMR on `http://localhost:3000` |
+| `pnpm build` | Client + server production builds into `dist/` |
+| `pnpm start` | Serve the production build |
+| `pnpm test` | Vitest run (all `*.test.{ts,tsx}`) |
+| `pnpm typecheck` | `tsc --noEmit` |
